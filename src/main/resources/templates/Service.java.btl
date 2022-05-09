@@ -1,0 +1,21 @@
+package com.missiongroup.starring.modular.${context.moduleName}.${context.subModuleName}.service;
+
+import java.util.Map;
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.missiongroup.starring.modular.${context.moduleName}.${context.subModuleName}.domain.${context.bDomainName};
+
+public interface ${context.bDomainName}Service {
+	<S extends ${context.bDomainName}> S save(S entity);
+
+	${context.bDomainName} findOneByUuid(String uuid);
+
+	Page<${context.bDomainName}> findAll(Pageable pageable, Map<String, Object> condition);
+
+	void delete(String uuids);
+	
+	List<${context.bDomainName}> findAll();
+}

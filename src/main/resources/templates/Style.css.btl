@@ -1,0 +1,19 @@
+.${context.functionName} {
+	background: #fff;
+	width: 100%;
+	min-height: 100%;
+	box-sizing: border-box;
+	padding: 20px;
+}
+
+.toolbarHeader .el-row {
+	margin: 10px 0;	
+}
+
+.toolbarHeader .el-select .el-input {
+	width: 152px;
+}
+
+.toolbarHeader .el-input-group {
+	width: 500px;
+}

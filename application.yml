@@ -1,0 +1,111 @@
+##########################################################
+##################  所有profile共有的配置  #################
+##########################################################
+
+###################  starring配置  ###################
+starring:
+  swagger-open: true #是否开启swagger (true/false)
+  kaptcha-open: false #是否开启登录时验证码 (true/false)
+  session-open: true #是否开启session超时验证（受影响的类SessionTimeoutInterceptor） (true/false)
+  #file-upload-path: d:/tmp  #文件上传目录(不配置的话为java.io.tmpdir目录)
+  muti-datasource-open: true #是否开启多数据源(true/false)
+  spring-session-open: false #是否开启spring session,如果是多机环境需要开启(true/false)
+  session-invalidate-time: 1800 #session失效时间(只在单机环境下生效，多机环境在SpringSessionConfig类中配置) 单位：秒
+  session-validation-interval: 900 #多久检测一次失效的session(只在单机环境下生效) 单位：秒
+
+###################  项目启动端口  ###################
+server:
+  port: 9082
+
+###################  beetl配置  ###################
+beetl:
+  delimiter-statement-start: \@   #开始结束标签(yaml不允许@开头)
+  delimiter-statement-end: null
+  resource-tagroot: common/tags   #自定义标签文件Root目录和后缀
+  resource-tagsuffix: tag
+  resource-auto-check: true #是否检测文件变化,开发用true合适，但线上要改为false
+
+###################  actuator权限配置  ##############
+management:
+  security:
+    enabled: false  #是否拦截监控安全配置项路径
+
+###################  spring配置  ###################
+spring:
+  jpa:
+    database: MYSQL
+    show-sql: false
+    hibernate:
+      ddl-auto: updata
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+  # ehcache 配置
+  cache:
+    ehcache:
+      config: classpath:ehcache.xml
+#  redis:
+#    host: localhost
+#    port: 6379
+#    password:
+#      pool:
+#        max-active: 8
+#        max-wait: -1
+#        max-idle: 8
+#        min-idle: 0
+#        timeout: 0
+  profiles:
+     active: dev
+  # active: produce
+  mvc:
+    favicon:
+      enabled: false
+    static-path-pattern: /static/**
+    view:
+      prefix: /WEB-INF/view
+  http:
+    converters:
+      preferred-json-mapper: fastjson
+    multipart:
+      max-request-size: 2048MB #最大请求大小
+      max-file-size: 2048MB #最大文件大小
+  devtools:
+    restart:
+      enabled: true #是否开启开发者工具（true/false）
+      additional-paths: src/main/java
+      exclude: static/**,WEB-INF/view/**
+  aop:
+    proxy-target-class: true #false为启用jdk默认动态代理,true为cglib动态代理
+
+---
+
+##########################################################
+###################  开发环境的profile  ###################
+##########################################################
+spring:
+  profiles: dev
+  datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      type: com.alibaba.druid.pool.DruidDataSource
+      url: jdbc:mysql://10.176.25.26:3306/mit_vhis?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+      #xiugai url: jdbc:mysql://192.168.0.122:3306/mit_vhis?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+      username: root
+      password: 123456
+      filters: log4j,wall,mergeStat
+logging:
+  level.root: info
+  level.com.rootgroup: debug
+  path: logs/
+  file: starring.log
+encrypt:
+  initVector: "0000000000000000"
+  key: "mission!saltkey*"
+---
+
+logging:
+  level.root: info
+  level.com.rootgroup: debug
+  path: logs/
+  file: starring.log

@@ -1,0 +1,71 @@
+<link rel="stylesheet" href="/static/css/modules/${context.moduleName}/${context.subModuleName}.css">
+<el-container class="${context.functionName}">
+	<el-main>
+        <div class="toolbarHeader">
+            <el-row>
+                <el-input placeholder="请输入内容" v-model.trim="page.condition.searchInput" size="small" v-on:keyup.enter.native="searchChange">
+                    <el-select slot="prepend" :value="page.condition.searchSelect" size="small" placeholder="请选择" style="width: 120px" v-on:change="selectChange">
+                        <%
+                        var i = 0;
+                        for(property in domain.properties) {
+                            i++;
+                        %>
+                        <el-option label="${property.description}" value="${i}"> </el-option>
+                        <% }%>
+                    </el-select>
+                    <el-button slot="append" icon="el-icon-search" v-on:click="searchChange"> </el-button>
+                </el-input>
+            </el-row>
+            <el-row>
+            	<el-button-group style="margin-right:10px">
+	                <el-button type="primary" size="small" icon="fa fa-plus" v-on:click="addRecord" permission-code="${context.sDomainName}_add">新建</el-button>
+	                <el-button type="primary" size="small" icon="fa fa-pencil" v-on:click="editRecord" permission-code="${context.sDomainName}_edit">编辑</el-button>
+	                <el-button type="danger" size="small" icon="fa fa-trash" v-on:click="deleteRecords" permission-code="${context.sDomainName}_delete">删除</el-button>
+	        	</el-button-group>
+            </el-row>
+        </div>
+		<el-table
+		    ref="${context.domainName}Table"
+		    :data="${context.domainName}TableData"
+		    v-on:selection-change="${context.domainName}SelectionChange"
+		    v-on:sort-change="${context.domainName}SortChange"
+		    v-on:row-click="onTableRowClick"
+			:max-height="document.documentElement.clientHeight - 250"
+		    stripe>
+			<el-table-column type="index" width="50"> </el-table-column>
+			<el-table-column type="selection" width="55"> </el-table-column>
+			<% for(property in domain.properties) {%>
+			<el-table-column prop="${property.sProperty}" label="${property.description}" sortable="custom" show-overflow-tooltip> </el-table-column>
+			<% }%>
+			<el-table-column prop="createTime" label="创建时间" sortable="custom" show-overflow-tooltip> </el-table-column>
+			<el-table-column prop="createUserName" label="创建者" show-overflow-tooltip> </el-table-column>
+			<el-table-column prop="updateTime" label="最近修改时间" sortable="custom" show-overflow-tooltip> </el-table-column>
+			<el-table-column prop="updateUserName" label="最近修改者" show-overflow-tooltip> </el-table-column>
+		</el-table>
+		<el-pagination class="page"
+			background
+            layout="jumper, prev, pager, next, sizes, total"
+            v-on:size-change="handleSizeChange"
+		    v-on:current-change="handleCurrentChange"
+            :current-page.sync="page.currentPage"
+            :page-size="page.limit"
+		    :total="page.total"
+            :page-sizes="[10, 20, 50, 100]">
+		</el-pagination>
+	</el-main>
+	<el-dialog :title="${context.domainName}Dialog.title" :close-on-press-escape="false" :close-on-click-modal="false" :visible.sync="${context.domainName}Dialog.visible" width="420px">
+		<el-form :model="${context.domainName}Dialog.form" ref="${context.domainName}Form" :rules="${context.domainName}Dialog.rules" label-width="100px" status-icon>
+			<% for(property in domain.properties) {%>
+			<el-form-item label="${property.description}" prop="${property.sProperty}" size="small">
+				<el-input v-model.trim="${context.domainName}Dialog.form.${property.sProperty}"> </el-input>
+			</el-form-item>
+			<% }%>
+		</el-form>
+		<div slot="footer" class="dialog-footer">
+			<el-button size="small" icon="fa fa-close" v-on:click="cancel('${context.domainName}Dialog')">取消</el-button>
+			<el-button size="small" type="primary" icon="fa fa-check" v-on:click="submit('${context.domainName}Dialog', '${context.domainName}Form')">确定</el-button>
+		</div>
+	</el-dialog>
+</el-container>
+<script src="static/js/controller/${context.moduleName}/${context.sDomainName}_controller.js"></script>
+<script src="static/js/modules/${context.moduleName}/${context.subModuleName}/${context.uFunctionName}.js"></script>

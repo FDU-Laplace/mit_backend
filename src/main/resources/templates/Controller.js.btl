@@ -1,0 +1,27 @@
+var ${context.bDomainName}Controller = {}
+
+// 查询${context.domainDescription}列表
+${context.bDomainName}Controller.loadData = function (pageParam, filterParam, succBack, failBack) {
+  let data = RequestUtils.getJSONParam(pageParam, filterParam)
+  RequestUtils.request(RequestMethod.POST, '/${context.domainName}Ctl/list', data, ContentType.JSON, succBack, failBack)
+}
+
+// 新增${context.domainDescription}
+${context.bDomainName}Controller.addRecord = function (param, succBack, failBack) {
+  RequestUtils.request(RequestMethod.POST, '/${context.domainName}Ctl/${context.domainName}', param, ContentType.JSON, succBack, failBack)
+}
+
+// 查询${context.domainDescription}
+${context.bDomainName}Controller.findOneById = function (id, succBack, failBack) {
+  RequestUtils.request(RequestMethod.GET, '/${context.domainName}Ctl/${context.domainName}/' + id, null, null, succBack, failBack)
+}
+
+// 编辑${context.domainDescription}
+${context.bDomainName}Controller.editRecord = function (id, param, succBack, failBack) {
+  RequestUtils.request(RequestMethod.PUT, '/${context.domainName}Ctl/${context.domainName}/' + id, param, ContentType.JSON, succBack, failBack)
+}
+
+// 删除${context.domainDescription}
+${context.bDomainName}Controller.deleteRecords = function (ids, succBack, failBack) {
+  RequestUtils.request(RequestMethod.DELETE, '/${context.domainName}Ctl/${context.domainName}/' + ids, null, null, succBack, failBack)
+}

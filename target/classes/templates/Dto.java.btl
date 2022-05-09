@@ -1,0 +1,80 @@
+package com.missiongroup.starring.modular.${context.moduleName}.${context.subModuleName}.domain.dto;
+
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * 
+ * @ClassName: ${context.bDomainName}Dto
+ * @Description: ${context.domainDescription}DTO
+ * @author TAIHUAYUN
+ * @date 2018年4月18日 下午4:41:20
+ *
+ */
+public class ${context.bDomainName}Dto implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	private String id;
+	
+	<% for(property in domain.properties) { %>
+	private ${property.type} ${property.sProperty};
+	
+    <% } %>
+	private Date createTime;
+	
+	private Date updateTime;
+	
+	private String createUserName;
+
+	private String updateUserName;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	<% for(property in domain.properties) { %>
+	public ${property.type} get${property.bProperty}() {
+		return ${property.sProperty};
+	}
+
+	public void set${property.bProperty}(${property.type} ${property.sProperty}) {
+		this.${property.sProperty} = ${property.sProperty};
+	}
+	
+	<% } %>
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getCreateUserName() {
+		return createUserName;
+	}
+
+	public void setCreateUserName(String createUserName) {
+		this.createUserName = createUserName;
+	}
+
+	public String getUpdateUserName() {
+		return updateUserName;
+	}
+
+	public void setUpdateUserName(String updateUserName) {
+		this.updateUserName = updateUserName;
+	}
+}

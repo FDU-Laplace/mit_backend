@@ -1,0 +1,45 @@
+package com.missiongroup.starring.modular.${context.moduleName}.${context.subModuleName}.domain.dto.warpper;
+
+import java.util.Map;
+
+import com.missiongroup.starring.common.constant.factory.ConstantFactory;
+import com.missiongroup.starring.core.base.warpper.BaseWarpper;
+import com.missiongroup.starring.modular.${context.moduleName}.${context.subModuleName}.domain.${context.bDomainName};
+import com.missiongroup.starring.modular.${context.moduleName}.${context.subModuleName}.domain.dto.${context.bDomainName}Dto;
+
+/**
+ * 
+ * @ClassName: ${context.bDomainName}Warpper
+ * @Description: ${context.bDomainName}的包装类
+ * @author TAIHUAYUN
+ * @date 2018年4月18日 下午4:21:21
+ *
+ */
+public class ${context.bDomainName}Warpper extends BaseWarpper {
+	public ${context.bDomainName}Warpper(Object list) {
+		super(list);
+	}
+
+	@Override
+	public void warpTheMap(Map<String, Object> map) {
+
+	}
+
+	@Override
+	protected Object warpTheEntity(Object entity) {
+		if (entity instanceof ${context.bDomainName}) {
+			${context.bDomainName}Dto ${context.domainName}Dto = new ${context.bDomainName}Dto();
+			${context.bDomainName} ${context.domainName} = (${context.bDomainName}) entity;
+			${context.domainName}Dto.setId(${context.domainName}.getUuid());
+			<% for(property in domain.properties) {%>
+			${context.domainName}Dto.set${property.bProperty}(${context.domainName}.get${property.bProperty}());
+			<% } %>
+			${context.domainName}Dto.setCreateTime(${context.domainName}.getCreateTime());
+			${context.domainName}Dto.setUpdateTime(${context.domainName}.getUpdateTime());
+			${context.domainName}Dto.setCreateUserName(ConstantFactory.me().getUserNameById(${context.domainName}.getCreateUserId()));
+			${context.domainName}Dto.setUpdateUserName(ConstantFactory.me().getUserNameById(${context.domainName}.getUpdateUserId()));
+			return ${context.domainName}Dto;
+		}
+		return null;
+	}
+}

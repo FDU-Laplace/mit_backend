@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>系统登录</title>
+  <link rel="stylesheet" href="/static/css/libs/element-ui-2.3.6.css">
+  <link rel="stylesheet" href="/static/css/global.css" />
+  <link rel="stylesheet" href="/static/css/login.css">
+  <link rel="stylesheet" href="/static/fonts/iconfont.css">
+  <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon" />
+</head>
+<body>
+  <el-container class="login">
+    <el-main>
+      <img src="/static/img/logo.png" alt="">
+      <div class="login_card">
+        <h3>VHIS车辆健康管理平台</h3>
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
+          <div class="rule_login">
+            <el-form-item prop="name">
+              <el-input placeholder="用户名" autofocus prefix-icon="el-icon-starring-userAccount" v-model="ruleForm.name" v-on:keyup.enter.native="login_submit()">
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="password">
+              <el-input type="password" placeholder="密码" prefix-icon="el-icon-starring-password" v-model="ruleForm.password" v-on:keyup.enter.native="login_submit()">
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="code" v-if="ruleForm.needEcurityCode">
+              <el-input placeholder="验证码" v-model="ruleForm.code" prefix-icon="el-icon-starring-verificationCode" v-on:keyup.enter.native="login_submit()">
+                <el-col slot="append">
+                  <img v-on:click="refreshKaptcha()" class="kaptcha_img" :src="ruleForm.kaptchaUrl">
+                </el-col>
+              </el-input>
+            </el-form-item>
+          </div>
+          <el-form-item>
+            <el-button type="primary" v-on:click="login_submit()">登&nbsp;录</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </el-main>
+    <el-footer height="24">©2018&nbsp;上海鸣啸信息科技股份有限公司</el-footer>
+  </el-container>
+</body>
+<script type="text/javascript" src="/static/js/common.js"></script>
+<script type="text/javascript" src="/static/js/libs/vue.min.js"></script>
+<script type="text/javascript" src="/static/js/libs/element-ui-2.3.6.js"></script>
+<script type="text/javascript" src="/static/js/libs/axios.min.js"></script>
+<script type="text/javascript" src="/static/js/request_manager.js"></script>
+<script type="text/javascript" src="/static/js/login.js"></script>
+
+<script type="text/javascript">
+  vm.ruleForm.needEcurityCode = ${ kaptcha };
+</script>
+</html>

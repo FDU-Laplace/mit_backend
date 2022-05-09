@@ -1,0 +1,224 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.missiongroup.starring.config.properties.BeetlProperties",
+      "name": "beetl",
+      "type": "com.missiongroup.starring.config.properties.BeetlProperties"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.datasource.DruidProperties",
+      "name": "spring.datasource",
+      "type": "com.missiongroup.starring.core.datasource.DruidProperties"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.config.properties.StarringProperties",
+      "name": "starring",
+      "type": "com.missiongroup.starring.config.properties.StarringProperties"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.mutidatasource.config.MutiDataSourceProperties",
+      "name": "starring.muti-datasource",
+      "type": "com.missiongroup.starring.core.mutidatasource.config.MutiDataSourceProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.missiongroup.starring.config.properties.BeetlProperties",
+      "name": "beetl.delimiter-statement-end",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.config.properties.BeetlProperties",
+      "name": "beetl.delimiter-statement-start",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.config.properties.BeetlProperties",
+      "name": "beetl.properties",
+      "type": "java.util.Properties"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.config.properties.BeetlProperties",
+      "name": "beetl.resource-auto-check",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.config.properties.BeetlProperties",
+      "name": "beetl.resource-tagroot",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.config.properties.BeetlProperties",
+      "name": "beetl.resource-tagsuffix",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.datasource.DruidProperties",
+      "name": "spring.datasource.driver-class-name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.datasource.DruidProperties",
+      "defaultValue": "stat",
+      "name": "spring.datasource.filters",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.datasource.DruidProperties",
+      "defaultValue": 2,
+      "name": "spring.datasource.initial-size",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.datasource.DruidProperties",
+      "defaultValue": 20,
+      "name": "spring.datasource.max-active",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.datasource.DruidProperties",
+      "defaultValue": 20,
+      "name": "spring.datasource.max-pool-prepared-statement-per-connection-size",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.datasource.DruidProperties",
+      "defaultValue": 60000,
+      "name": "spring.datasource.max-wait",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.datasource.DruidProperties",
+      "defaultValue": 300000,
+      "name": "spring.datasource.min-evictable-idle-time-millis",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.datasource.DruidProperties",
+      "defaultValue": 1,
+      "name": "spring.datasource.min-idle",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.datasource.DruidProperties",
+      "name": "spring.datasource.password",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.datasource.DruidProperties",
+      "defaultValue": true,
+      "name": "spring.datasource.pool-prepared-statements",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.datasource.DruidProperties",
+      "defaultValue": false,
+      "name": "spring.datasource.test-on-borrow",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.datasource.DruidProperties",
+      "defaultValue": false,
+      "name": "spring.datasource.test-on-return",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.datasource.DruidProperties",
+      "defaultValue": true,
+      "name": "spring.datasource.test-while-idle",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.datasource.DruidProperties",
+      "defaultValue": 60000,
+      "name": "spring.datasource.time-between-eviction-runs-millis",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.datasource.DruidProperties",
+      "name": "spring.datasource.url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.datasource.DruidProperties",
+      "name": "spring.datasource.username",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.datasource.DruidProperties",
+      "defaultValue": "SELECT 'x'",
+      "name": "spring.datasource.validation-query",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.config.properties.StarringProperties",
+      "name": "starring.file-upload-path",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.config.properties.StarringProperties",
+      "defaultValue": false,
+      "name": "starring.kaptcha-open",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.mutidatasource.config.MutiDataSourceProperties",
+      "defaultValue": "dataSourceStarring",
+      "name": "starring.muti-datasource.default-data-source-name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.mutidatasource.config.MutiDataSourceProperties",
+      "defaultValue": "com.mysql.jdbc.Driver",
+      "name": "starring.muti-datasource.driver-class-name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.mutidatasource.config.MutiDataSourceProperties",
+      "defaultValue": "mission",
+      "name": "starring.muti-datasource.password",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.mutidatasource.config.MutiDataSourceProperties",
+      "defaultValue": "jdbc:mysql:\/\/127.0.0.1:3306\/biz?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull",
+      "name": "starring.muti-datasource.url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.mutidatasource.config.MutiDataSourceProperties",
+      "defaultValue": "root",
+      "name": "starring.muti-datasource.username",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.core.mutidatasource.config.MutiDataSourceProperties",
+      "defaultValue": "SELECT 'x'",
+      "name": "starring.muti-datasource.validation-query",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.config.properties.StarringProperties",
+      "name": "starring.session-invalidate-time",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.config.properties.StarringProperties",
+      "name": "starring.session-validation-interval",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.config.properties.StarringProperties",
+      "defaultValue": false,
+      "name": "starring.spring-session-open",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.missiongroup.starring.config.properties.StarringProperties",
+      "defaultValue": false,
+      "name": "starring.swagger-open",
+      "type": "java.lang.Boolean"
+    }
+  ]
+}

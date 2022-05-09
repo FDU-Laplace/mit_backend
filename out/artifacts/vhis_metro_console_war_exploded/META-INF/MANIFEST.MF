@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Created-By: IntelliJ IDEA
+Built-By: fengli
+Build-Jdk: 1.8.0_271
+Implementation-Title: vhis_metro_console
+Implementation-Version: 3.0.1-RELEASE
+Implementation-Vendor-Id: com.missiongroup.starring
+Main-Class: ${start-class}
+

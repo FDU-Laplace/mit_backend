@@ -1,0 +1,27 @@
+package com.missiongroup.starring.common.constant.dictmap.${context.moduleName}.${context.subModuleName};
+
+import com.missiongroup.starring.common.constant.dictmap.base.AbstractDictMap;
+
+/**
+ * 
+ * @ClassName: ${context.bDomainName}Dict
+ * @Description: ${context.moduleDescription}字典
+ * @author TAIHUAYUN
+ * @date 2018年4月9日 下午3:13:41
+ *
+ */
+public class ${context.bDomainName}Dict extends AbstractDictMap {
+	@Override
+	public void init() {
+		put("uuid", "${context.domainDescription}ID");
+		put("ids", "${context.domainDescription}ID列表");
+		<% for(property in domain.properties) {%>
+		put("${property.sProperty}", "${property.description}");
+		<%}%>
+	}
+
+	@Override
+	protected void initBeWrapped() {
+	    
+	}
+}

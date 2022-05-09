@@ -1,0 +1,147 @@
+package com.missiongroup.starring.modular.${context.moduleName}.${context.subModuleName}.controller;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.missiongroup.starring.common.annotion.BussinessLog;
+import ${context.dictBasePackage}.${context.moduleName}.${context.subModuleName}.${context.bDomainName}Dict;
+import com.missiongroup.starring.common.domain.PageDirection;
+import com.missiongroup.starring.common.domain.PageParam;
+import com.missiongroup.starring.common.domain.PageResult;
+import com.missiongroup.starring.common.exception.BizExceptionEnum;
+import com.missiongroup.starring.common.exception.BussinessException;
+import com.missiongroup.starring.core.base.controller.BaseController;
+import com.missiongroup.starring.core.log.LogObjectHolder;
+import com.missiongroup.starring.core.shiro.ShiroKit;
+import com.missiongroup.starring.core.util.ToolUtil;
+import com.missiongroup.starring.modular.${context.moduleName}.${context.subModuleName}.domain.${context.bDomainName};
+import com.missiongroup.starring.modular.${context.moduleName}.${context.subModuleName}.domain.dto.${context.bDomainName}Dto;
+import com.missiongroup.starring.modular.${context.moduleName}.${context.subModuleName}.domain.dto.warpper.${context.bDomainName}Warpper;
+import com.missiongroup.starring.modular.${context.moduleName}.${context.subModuleName}.service.${context.bDomainName}Service;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
+/**
+ * 
+ * @ClassName: ${context.bDomainName}Controller
+ * @Description: ${context.moduleDescription}控制器
+ * @author TAIHUAYUN
+ * @date 2018年4月9日 下午3:13:41
+ *
+ */
+@SuppressWarnings("all")
+@Controller
+@RequestMapping("/${context.domainName}Ctl")
+public class ${context.bDomainName}Controller extends BaseController {
+	@Autowired
+	${context.bDomainName}Service ${context.domainName}Service;
+
+    @ApiOperation(value = "新增${context.domainDescription}信息", notes = "新增${context.domainDescription}信息")
+	@ApiImplicitParam(name = "${context.domainName}", value = "${context.domainDescription}信息", required = true, dataType = "${context.bDomainName}")
+	@PostMapping(value = "/${context.domainName}")
+	@BussinessLog(value = "新增${context.domainDescription}信息", key = "${context.logProperties}", dict = ${context.bDomainName}Dict.class)
+	@ResponseBody
+	public Object add(@Valid @RequestBody ${context.bDomainName} ${context.domainName}, BindingResult result) {
+		if (result.hasErrors()) {
+			throw new BussinessException(BizExceptionEnum.REQUEST_PARAM);
+		}
+		${context.domainName}.setCreateTime(new Date());
+		${context.domainName}.setCreateUserId(ShiroKit.getUser().getId());
+		${context.domainName}.setUpdateTime(new Date());
+		${context.domainName}.setUpdateUserId(ShiroKit.getUser().getId());
+		${context.domainName}Service.save(${context.domainName});
+		return SUCCESS_TIP;
+	}
+	
+	@ApiOperation(value = "修改${context.domainDescription}信息", notes = "根据ID修改${context.domainDescription}信息")
+	@ApiImplicitParams({ //
+			@ApiImplicitParam(name = "id", value = "ID", required = true, dataType = "String"), //
+			@ApiImplicitParam(name = "${context.domainName}", value = "${context.domainDescription}信息", required = true, dataType = "${context.bDomainName}Dto")//
+	})
+	@PutMapping(value = "/${context.domainName}/{id}")
+	@BussinessLog(value = "修改${context.domainDescription}信息", key = "${context.logProperties}", dict = ${context.bDomainName}Dict.class)
+	@ResponseBody
+	public Object edit(@PathVariable("id") String id, @Valid @RequestBody ${context.bDomainName} ${context.domainName}, BindingResult result) {
+		if (result.hasErrors()) {
+			throw new BussinessException(BizExceptionEnum.REQUEST_PARAM);
+		}
+		${context.domainName}.setUuid(id);
+		${context.bDomainName} cache${context.bDomainName} = (${context.bDomainName}) LogObjectHolder.me().get();
+		
+		<% for(property in domain.properties) {%>
+		cache${context.bDomainName}.set${property.bProperty}(${context.domainName}.get${property.bProperty}());
+		<%}%>
+		cache${context.bDomainName}.setUpdateTime(new Date());
+		cache${context.bDomainName}.setUpdateUserId(ShiroKit.getUser().getId());
+		cache${context.bDomainName} = ${context.domainName}Service.save(cache${context.bDomainName});
+		return SUCCESS_TIP;
+	}
+	
+	@ApiOperation(value = "删除${context.domainDescription}信息", notes = "删除${context.domainDescription}信息")
+	@ApiImplicitParam(name = "ids", value = "${context.domainDescription}ID列表", required = true, dataType = "String")
+	@DeleteMapping(value = "/${context.domainName}/{ids}")
+	@BussinessLog(value = "删除${context.domainDescription}信息", key = "ids", dict = ${context.bDomainName}Dict.class)
+	@ResponseBody
+	public Object delete(@PathVariable("ids") String ids) {
+		if (ToolUtil.validateParam(ids)) {
+			throw new BussinessException(BizExceptionEnum.REQUEST_PARAM);
+		}
+		${context.domainName}Service.delete(ids);
+		return SUCCESS_TIP;
+	}
+	
+	@ApiOperation(value = "查询${context.domainDescription}信息", notes = "根据ID获取${context.domainDescription}信息")
+	@ApiImplicitParam(name = "id", value = "ID", required = true, dataType = "String")
+	@GetMapping(value = "/${context.domainName}/{id}")
+	@ResponseBody
+	public Object get${context.bDomainName}ById(@PathVariable("id") String id) {
+		if (ToolUtil.validateParam(id)) {
+			throw new BussinessException(BizExceptionEnum.REQUEST_PARAM);
+		}
+		${context.bDomainName} ${context.domainName} = ${context.domainName}Service.findOneByUuid(id);
+		LogObjectHolder.me().set(${context.domainName});
+		return ${context.domainName};
+	}
+	
+	@ApiOperation(value = "查询${context.domainDescription}列表", notes = "查询${context.domainDescription}列表")
+	@ApiImplicitParam(name = "pageParam", value = "分页查询参数", required = true, paramType = "PageParam")
+	@PostMapping(value = "/list")
+	@ResponseBody
+	public PageResult list(@RequestBody PageParam pageParam) {
+		Page<${context.bDomainName}> ${context.domainName}List = ${context.domainName}Service.findAll(pageParam.formatPageable(), pageParam.getCondition());
+		PageResult pageResult = new PageResult(${context.domainName}List);
+		pageResult.setRows((List<${context.bDomainName}Dto>) new ${context.bDomainName}Warpper(pageResult.getRows()).warp());
+		return pageResult;
+	}
+	
+	@ApiOperation(value = "查询${context.domainDescription}所有列表", notes = "查询${context.domainDescription}所有列表")
+	@GetMapping(value = "/${context.domainName}s")
+	@ResponseBody
+	public Object findAll() {
+		List<${context.bDomainName}> ${context.domainName}List = ${context.domainName}Service.findAll();
+		return  new ${context.bDomainName}Warpper(${context.domainName}List).warp();
+	}
+}

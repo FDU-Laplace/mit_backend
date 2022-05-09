@@ -1,0 +1,225 @@
+var ${context.functionName}App = $global.initPageVue({
+  el: '.${context.functionName}',
+  data() {
+    return {
+      ${context.domainName}TableData: [],
+      multipleSelection: [],
+      page: {
+        currentPage: 1,
+        limit: 10,
+        total: 0,
+        sort: {
+          properties: 'updateTime',
+          direction: 'desc'
+        },
+        condition: {
+          searchSelect: '1',
+          searchInput: ''
+        }
+      },
+      ${context.domainName}Dialog: {
+        state: '',
+        title: '',
+        visible: false,
+        form: {
+          <%
+              for(property in domain.properties) {
+          %>
+          ${property.sProperty}: '',
+          <% }%>
+        },
+        rules: {
+          <%
+              for(property in domain.properties) {
+          %>
+          ${property.sProperty}: $global.getStringValidator('${property.description}', true, 'blur'),
+          <% }%>
+        }
+      }
+    }
+  },
+  created: function () {
+    this.loadTableData()
+  },
+  destroyed: function () {
+   ${context.functionName}App = undefined
+  },
+  methods: {
+    loadTableData() {
+      let me = this
+      let searchParam = {
+        <%
+            for(property in domain.properties) {
+        %>
+        ${property.sProperty}: '',
+        <% }%>
+      }
+      switch (me.page.condition.searchSelect) {
+      <%
+        var i = 0;
+        for(property in domain.properties) {
+        i++;
+      %>
+      case '${i}':
+        searchParam.${property.sProperty} = me.page.condition.searchInput
+        break
+      <% }%>
+      default:
+        break
+      }
+      let pageParam = {
+        page: me.page.currentPage,
+        size: me.page.limit
+      }
+      if (me.page.sort) {
+        pageParam.properties = me.page.sort.properties
+        pageParam.direction = me.page.sort.direction
+      }
+      ${context.bDomainName}Controller.loadData(pageParam, searchParam, (data) => {
+        data.rows.map((item, index) => {
+          item.createTime = $global.formatDateTime(item.createTime)
+          item.updateTime = $global.formatDateTime(item.updateTime)
+        })
+        me.${context.domainName}TableData = data.rows
+        me.page.total = data.totalSize
+      }, $global.commonRequestError)
+    },
+    handleSizeChange(val) {
+      this.page.limit = val
+      this.loadTableData()
+    },
+    handleCurrentChange(val) {
+      this.page.currentPage = val
+      this.loadTableData()
+    },
+    onTableRowClick (row, event, column) {
+      this.$refs.${context.domainName}Table.toggleRowSelection(row)
+    },
+    ${context.domainName}SelectionChange(val) {
+      this.multipleSelection = val
+    },
+    ${context.domainName}SortChange(row) {
+      if (!row.prop) {
+        this.page.sort.properties = 'updateTime'
+        this.page.sort.direction = 'desc'
+      } else {
+        this.page.sort.properties = row.prop
+        this.page.sort.direction = (row.order === 'ascending' ? 'asc' : 'desc')
+      }
+      this.loadTableData()
+    },
+    addRecord() {
+      this.${context.domainName}Dialog.visible = true
+      if (this.$refs.${context.domainName}Form) {
+        this.$refs.${context.domainName}Form.resetFields()
+      }
+      this.formEmpty('${context.domainName}Dialog')
+      this.${context.domainName}Dialog.state = 'add'
+      this.${context.domainName}Dialog.title = '新增${context.domainDescription}'
+    },
+    editRecord() {
+      let me = this
+      if ($global.checkSelectCount(this.multipleSelection, 1, '=', true, '${context.domainDescription}')) {
+        me.${context.domainName}Dialog.state = 'edit'
+        me.${context.domainName}Dialog.title = '编辑${context.domainDescription}'
+        ${context.bDomainName}Controller.findOneById(me.multipleSelection[0].id, function (data) {
+          <% for(property in domain.properties) {%>
+          me.${context.domainName}Dialog.form.${property.sProperty} = data.${property.sProperty}
+          <% }%>
+          me.${context.domainName}Dialog.visible = true
+        }, $global.commonRequestError)
+      }
+    },
+    deleteRecords() {
+      let me = this
+      if ($global.checkSelectCount(me.multipleSelection, 1, '>=', true, '${context.domainDescription}')) {
+        this.$confirm('此操作将删除选中的${context.domainDescription}, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let selectedIdList = me.multipleSelection.map((item, index) => {
+            return item.id
+          })
+          let selectedIds = selectedIdList.join(',')
+          ${context.bDomainName}Controller.deleteRecords(selectedIds, function () {
+            me.loadTableData()
+            $global.VUE.$message({
+              type: 'success',
+              message: '删除成功',
+              center: true
+            })
+          }, $global.commonRequestError)
+        }).catch(() => {
+        })
+      }
+    },
+    selectChange(val) {
+      this.page.condition.searchSelect = val
+    },
+    searchChange() {
+      this.loadTableData()
+    },
+    formEmpty(dialogName) {
+      switch (dialogName) {
+      case '${context.domainName}Dialog':
+      	if (this.$refs.${context.domainName}Form) {
+          this.$refs.${context.domainName}Form.resetFields()
+        }
+        <% for(property in domain.properties) {%>
+        this.${context.domainName}Dialog.form.${property.sProperty} = ''
+        <% }%>
+        break
+      default:
+        break
+      }
+    },
+    cancel(dialogName) {
+      this.${context.domainName}Dialog.visible = false
+      this.formEmpty(dialogName)
+    },
+    submit(dialogName, formRef) {
+      let me = this
+      switch (dialogName) {
+      case '${context.domainName}Dialog':
+        me.$refs[formRef].validate((valid) => {
+          if (valid) {
+          	let param = {
+              <% for(property in domain.properties) {%>
+                ${property.sProperty}: me.${context.domainName}Dialog.form.${property.sProperty},
+              <% }%>
+            }
+            if (me.${context.domainName}Dialog.state === 'add') {
+              ${context.bDomainName}Controller.addRecord(param, function () {
+                me.loadTableData()
+                me.formEmpty('${context.domainName}Dialog')
+                me.${context.domainName}Dialog.visible = false
+                $global.VUE.$message({
+                  type: 'success',
+                  message: '添加成功',
+                  center: true
+                })
+              }, $global.commonRequestError)
+            } else if (me.${context.domainName}Dialog.state === 'edit') {
+              ${context.bDomainName}Controller.editRecord(me.multipleSelection[0].id, param, function () {
+                me.loadTableData()
+                me.formEmpty('${context.domainName}Dialog')
+                me.${context.domainName}Dialog.visible = false
+                $global.VUE.$message({
+                  type: 'success',
+                  message: '修改成功',
+                  center: true
+                })
+              }, $global.commonRequestError)
+            }
+          } else {
+            return false
+          }
+        })
+        break
+      default:
+        break
+      }
+    }
+  }
+})

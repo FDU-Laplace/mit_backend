@@ -1,0 +1,10 @@
+package com.missiongroup.starring.modular.${context.moduleName}.${context.subModuleName}.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
+import com.missiongroup.starring.modular.${context.moduleName}.${context.subModuleName}.domain.${context.bDomainName};
+
+public interface ${context.bDomainName}Repository extends JpaRepository<${context.bDomainName}, String>, JpaSpecificationExecutor<${context.bDomainName}> {
+
+}
